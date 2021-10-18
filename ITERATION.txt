@@ -1,0 +1,23 @@
+ITERATION 1
+
+- Aim: Gauge interest in marketplace for buying distressed SaaS businesses
+- Goal: 25 seller signups
+
+Endpoints
+- /
+- /about
+
+- /blog
+- /blog/<category>/<slug>
+
+- /_api/create/content
+- /_api/read/content/<slug>
+- /_api/update/content/<slug>
+- /_api/delete/content/<slug>
+
+UP NEXT:
+- Register as a user / claim your account
+- Comments
+- Content view tracking
+- Free users can comment
+- Paid users can talk to each other
