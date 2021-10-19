@@ -19,6 +19,7 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     GOAL = 25
     PUBLISHER_KEY = os.environ.get('PUBLISHER_KEY') or 'publisher_key'
+    ADMIN_KEY = os.environ.get('ADMIN_KEY') or 'admin_key'
     MAIL_SERVER = os.environ.get('MAIL_SERVER')
     MAIL_PORT = int(os.environ.get('MAIL_PORT') or 25)
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') is not None
