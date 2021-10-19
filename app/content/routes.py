@@ -8,7 +8,11 @@ import datetime
 
 @bp.route('/blog')
 def blog():
-    return "blog"
+    return render_template(
+        'content/blog.html',
+        title='Blog',
+        description='Description'
+    )
 
 
 @bp.route('/blog/content/<slug>')

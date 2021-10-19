@@ -36,7 +36,11 @@ def index():
 
 @bp.route('/about')
 def about():
-    return "about page"
+    return render_template(
+        'main/about.html',
+        title='About',
+        description='Description'
+    )
 
 
 @bp.route('/unsubscribe/<email>')

@@ -17,7 +17,7 @@ class Lead(db.Model):
 class Content(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     file_name = db.Column(db.String(300))
-    slug = db.Column(db.String(100), unique=True)
+    slug = db.Column(db.String(100), unique=True, index=True)
     author_name = db.Column(db.String(70))
     author_handle = db.Column(db.String(70))
     title = db.Column(db.String(70))
