@@ -16,6 +16,7 @@ def content(slug):
     content = Content.query.filter_by(slug=str(slug)).first_or_404()
     if 'cookie_uuid' not in session:
         session['cookie_uuid'] = str(uuid.uuid4())
+        session.permanent = True
     try:
         l = Log()
         l.content_id = content.id
