@@ -1,13 +1,16 @@
 from app.api import bp
-from app.models import User
-from flask import Response, abort
+from app.models import Lead
+from flask import Response, abort, request
+from config import Config
 
-@bp.route('/_api/read/leads')
+@bp.route('/_api/read/leads', methods=['POST'])
 def read_leads():
+    if str(request.form.get('admin_key')) != Config.ADMIN_KEY:
+        abort(403, description='Incorrect `admin_key`.')
     try:
-        users = User.query.filter_by(category='BUYER').order_by(User.timestamp.desc()).all()
+        leads = Lead.query.filter_by(can_contact=True).order_by(Lead.timestamp.desc()).all()
         data_list = []
-        for x in users:
+        for x in leads:
             data_dict = {
                 'id': x.id,
                 'first_name': x.first_name,

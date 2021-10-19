@@ -1,8 +1,10 @@
 from app.content import bp
-from flask import render_template, abort, Response
+from flask import render_template, abort, Response, session
 import json
-from app.models import Content
+from app.models import Content, Log
 from app import db
+import uuid
+import datetime
 
 @bp.route('/blog')
 def blog():
@@ -12,8 +14,14 @@ def blog():
 @bp.route('/blog/content/<slug>')
 def content(slug):
     content = Content.query.filter_by(slug=str(slug)).first_or_404()
+    if 'cookie_uuid' not in session:
+        session['cookie_uuid'] = str(uuid.uuid4())
     try:
-        content.views += 1
+        l = Log()
+        l.content_id = content.id
+        l.cookie_uuid = session['cookie_uuid']
+        l.timestamp = datetime.datetime.utcnow()
+        db.session.add(l)
         db.session.commit()
         return render_template(
             'content/blog/{}'.format(content.file_name),

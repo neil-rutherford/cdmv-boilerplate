@@ -1,0 +1,14 @@
+# PROGRESS
+
+You currently have {{ leads }} leads, which is {{ ((goal - leads) / goal)*100 }}% of the way to your goal of {{ goal }}.
+
+# LEAD INFORMATION
+
+First Name: {{ lead.first_name }}
+Last Name: {{ lead.last_name }}
+Email: {{ lead.email }}
+Phone Number: {{ lead.phone_number }}
+Category: {{ lead.category }}
+Can Contact? {{ lead.can_contact }}
+Timestamp: {{ moment(lead.timestamp).format('LLL') }}
+

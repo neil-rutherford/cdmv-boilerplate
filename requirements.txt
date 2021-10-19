@@ -1,0 +1,12 @@
+flask
+python-dotenv
+flask-wtf
+flask-moment
+flask-mail
+flask-migrate
+flask-sqlalchemy
+WTForms
+SQLAlchemy
+email_validator
+psycopg2
+gunicorn
