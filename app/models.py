@@ -28,7 +28,7 @@ class Content(db.Model):
     image_url = db.Column(db.String(300))
     published_time = db.Column(db.DateTime)
     modified_time = db.Column(db.DateTime)
-    views = db.relationship('Log', backref='content', lazy='dynamic')
+    views = db.relationship('Log', backref='content', lazy='select')
 
     def __repr__(self):
         return "<Content {}>".format(self.slug)

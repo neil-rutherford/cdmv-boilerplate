@@ -10,3 +10,4 @@ SQLAlchemy
 email_validator
 psycopg2
 gunicorn
+coverage

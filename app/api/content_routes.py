@@ -40,8 +40,8 @@ def create_content():
                 'section': content.section,
                 'tags': str(content.tags).split(', '),
                 'image_url': content.image_url,
-                'published_time': content.published_time,
-                'modified_time': content.modified_time,
+                'published_time': datetime.datetime.strftime(content.published_time, '%Y-%m-%d %H:%M:%S'),
+                'modified_time': datetime.datetime.strftime(content.modified_time, '%Y-%m-%d %H:%M:%S'),
                 'views': len(content.views)
             }),
             mimetype='application/json'
@@ -67,8 +67,8 @@ def read_content(slug):
             'section': content.section,
             'tags': str(content.tags).split(", "),
             'image_url': content.image_url,
-            'published_time': content.published_time,
-            'modified_time': content.modified_time,
+            'published_time': datetime.datetime.strftime(content.published_time, '%Y-%m-%d %H:%M:%S'),
+            'modified_time': datetime.datetime.strftime(content.modified_time, '%Y-%m-%d %H:%M:%S'),
             'views': len(content.views)
         }),
         mimetype='application/json'
@@ -106,8 +106,8 @@ def update_content(slug):
                 'section': content.section,
                 'tags': str(content.tags).split(', '),
                 'image_url': content.image_url,
-                'published_time': content.published_time,
-                'modified_time': content.modified_time,
+                'published_time': datetime.datetime.strftime(content.published_time, '%Y-%m-%d %H:%M:%S'),
+                'modified_time': datetime.datetime.strftime(content.modified_time, '%Y-%m-%d %H:%M:%S'),
                 'views': len(content.views)
             }),
             mimetype='application/json'
@@ -117,6 +117,7 @@ def update_content(slug):
 
 
 @bp.route('/_api/delete/content/<slug>', methods=['POST'])
+def delete_content(slug):
     if str(request.form.get('publisher_key')) != Config.PUBLISHER_KEY:
         abort(403, description='Incorrect `publisher_key`.')
     content = Content.query.filter_by(slug=str(slug)).first_or_404()

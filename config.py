@@ -14,16 +14,16 @@ class Config(object):
     GOAL = 25
 
     # Credentials
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'secret_key'
-    PUBLISHER_KEY = os.environ.get('PUBLISHER_KEY') or 'publisher_key'
-    ADMIN_KEY = os.environ.get('ADMIN_KEY') or 'admin_key'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'example_secret_key'
+    PUBLISHER_KEY = os.environ.get('PUBLISHER_KEY') or 'example_publisher_key'
+    ADMIN_KEY = os.environ.get('ADMIN_KEY') or 'example_admin_key'
 
     # Database Setup
     database_uri = os.environ.get('DATABASE_URL')
-    if database_uri[0:11] == 'postgres://':
-        SQLALCHEMY_DATABASE_URI = 'postgresql://' + database_uri.split('//')[1]
-    elif not database_uri:
+    if not database_uri:
         SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+    elif database_uri[0:11] == 'postgres://':
+        SQLALCHEMY_DATABASE_URI = 'postgresql://' + database_uri.split('//')[1]
     else:
         SQLALCHEMY_DATABASE_URI = database_uri
     SQLALCHEMY_TRACK_MODIFICATIONS = False
