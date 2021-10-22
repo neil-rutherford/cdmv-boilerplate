@@ -2,7 +2,7 @@ from app.api import bp
 from flask import request, Response
 from app.models import Log, Content
 import datetime
-from sqlalchemy import and_
+from sqlalchemy import desc
 import json
 
 @bp.route('/_api/read/logs')
@@ -15,25 +15,25 @@ def read_logs():
     if request.args:
         if 'slug' in request.args:
             content = Content.query.filter_by(slug=str(request.args.get('slug'))).first_or_404()
-            logs = Log.query.filter_by(content_id=content.id).order_by(Log.timestamp.desc()).all()
+            logs = Log.query.filter_by(content_id=content.id).order_by(desc(Log.timestamp)).all()
             for log in logs:
                 content_list.append(log)
         if 'cookie_uuid' in request.args:
-            logs = Log.query.filter_by(cookie_uuid=str(request.args.get('cookie_uuid'))).order_by(Log.timestamp.desc()).all()
+            logs = Log.query.filter_by(cookie_uuid=str(request.args.get('cookie_uuid'))).order_by(desc(Log.timestamp)).all()
             for log in logs:
                 cookie_list.append(log)
         if 'start_date' in request.args:
             if 'end_date' in request.args:
                 logs = Log.query.filter(
                     Log.timestamp >= datetime.datetime.strptime(request.args.get('start_date'), '%Y-%m-%d')
-                ).order_by(Log.timestamp.desc()).all()
+                ).order_by(desc(Log.timestamp)).all()
                 for log in logs:
                     if log.timestamp <= datetime.datetime.strptime(request.args.get('end_date'), '%Y-%m-%d'):
                         time_list.append(log)
             else:
                 logs = Log.query.filter(
                     Log.timestamp >= datetime.datetime.strptime(str(request.args.get('start_date')), '%Y-%m-%d')
-                ).order_by(Log.timestamp.desc()).all()
+                ).order_by(desc(Log.timestamp)).all()
                 for log in logs:
                     time_list.append(log)
 

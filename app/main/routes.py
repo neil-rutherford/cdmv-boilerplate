@@ -9,37 +9,25 @@ from app.main.email import send_alert_email
 @bp.route('/', methods=['GET', 'POST'])
 def index():
     form = LeadCaptureForm()
-    if form.validate_on_submit:
-        try:
-            lead = Lead()
-            lead.first_name = str(form.first_name.data)
-            lead.last_name = str(form.last_name.data)
-            lead.email = str(form.email.data)
-            lead.phone_number = str(form.phone_number.data)
-            lead.category = str(form.category.data)
-            lead.can_contact = True
-            lead.timestamp = datetime.datetime.utcnow()
-            db.session.add(lead)
-            db.session.commit()
-            flash("Thank you for your interest. We'll be in touch!")
-            send_alert_email(lead=lead)
-        except:
-            flash("That email address or phone number is already registered.")
+    if form.validate_on_submit():
+        lead = Lead()
+        lead.first_name = str(form.first_name.data)
+        lead.last_name = str(form.last_name.data)
+        lead.email = str(form.email.data)
+        lead.phone_number = str(form.phone_number.data)
+        lead.category = int(form.category.data)
+        lead.can_contact = True
+        lead.timestamp = datetime.datetime.utcnow()
+        db.session.add(lead)
+        db.session.commit()
+        flash("Thank you for your interest. We'll be in touch!")
+        send_alert_email(lead=lead)
         return redirect(url_for('main.index'))
     return render_template(
         'main/index.html',
         title='Title',
         description='Description',
         form=form
-    )
-
-
-@bp.route('/about')
-def about():
-    return render_template(
-        'main/about.html',
-        title='About',
-        description='Description'
     )
 
 

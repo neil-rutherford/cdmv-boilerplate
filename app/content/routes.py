@@ -1,10 +1,11 @@
 from app.content import bp
-from flask import render_template, abort, Response, session
+from flask import render_template, abort, Response, session, request, url_for
 import json
 from app.models import Content, Log
 from app import db
 import uuid
 import datetime
+from sqlalchemy import desc
 
 @bp.route('/blog')
 def blog():
@@ -40,10 +41,10 @@ def content(slug):
 
 @bp.route('/_api/load/content')
 def load_content():
-    content = Content.query.filter_by().order_by(Content.modified_time.desc()).all()
+    content = Content.query.filter_by().order_by(desc(Content.modified_time)).all()
     if 'counter' in request.args:
         counter = int(request.args.get('counter'))
-        if counter >= len(contents):
+        if counter >= len(content):
             data_json = json.dumps([])
         else:
             data_list = []
@@ -53,9 +54,9 @@ def load_content():
                     'tags': str(x.tags).split(', '),
                     'title': x.title,
                     'description': x.description,
-                    'author': x.author,
+                    'author_name': x.author_name,
                     'content_url': url_for('content.content', slug=x.slug),
-                    'modified_time': x.modified_time
+                    'modified_time': datetime.datetime.strftime(x.modified_time, '%Y-%m-%d %H:%M:%S')
                 }
                 data_list.append(data_dict)
             data_json = json.dumps(data_list)
